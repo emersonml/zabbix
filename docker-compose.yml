@@ -1,0 +1,20 @@
+version: '3'
+services:
+  zabbix-server:
+    image: zabbix/zabbix-server-mysql:ubuntu-latest
+    restart: always
+    # container_name: some-zabbix-server-mysql
+    environment:
+      DB_SERVER_HOST: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      net:
+        ipv4_address: 10.0.12.3
+
+networks:
+  net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.0.12.0/24
