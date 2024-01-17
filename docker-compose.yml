@@ -1,17 +1,16 @@
 version: '3.1'
 
 
-
 services:
   mysql:
-    container_name: mysql
+    # container_name: mysql
     image: mysql:5.7
     networks:
       - network-zabbix
     ports:
       - '3306:3306'
     volumes:
-      - './zabbix/mysql:/var/lib/data'
+      - './volume/zabbix/mysql:/var/lib/data'
     environment:
       - MYSQL_ROOT_PASSWORD=carryontech
       - MYSQL_DATABASE=zabbix
@@ -19,7 +18,7 @@ services:
       - MYSQL_PASSWORD=emer888
 
   zabbix-server:
-    container_name: zabbix-server
+    # container_name: zabbix-server
     image: zabbix/zabbix-server-mysql:ubuntu-5.0.1
     networks:
       - network-zabbix
@@ -29,7 +28,7 @@ services:
     ports:
       - '10051:10051'
     volumes:
-      - './zabbix/alertscripts:/usr/lib/zabbix/alertscripts'
+      - './volume/zabbix/alertscripts:/usr/lib/zabbix/alertscripts'
     environment:
       - DB_SERVER_HOST=mysql
       - MYSQL_DATABASE=zabbix
@@ -39,15 +38,15 @@ services:
       - mysql
 
   zabbix-frontend:
-    container_name: zabbix-frontend
+    # container_name: zabbix-frontend
     image: zabbix/zabbix-web-apache-mysql:ubuntu-5.0.1
       
     links:
       - mysql
     restart: always
     ports:
-      - '9004:8080'
-      - '443:8443'
+      - '8004:8080'
+      - '44304:443'
     environment:
       - DB_SERVER_HOST=mysql
       - MYSQL_DATABASE=zabbix
@@ -57,14 +56,14 @@ services:
     networks:
       network-zabbix:
       nginx_network:
-        ipv4_address: 10.0.2.4
+        ipv4_address: 10.0.2.4  
 
 
-    depends_on:
+    depends_on: 
       - mysql
    
   grafana:
-    container_name: grafana
+    # container_name: grafana
     image: grafana/grafana
     networks:
       - network-zabbix
@@ -80,7 +79,7 @@ services:
       - mysql
       - zabbix-server
   zabbix-agent:
-    container_name: zabbix-agent
+    # container_name: zabbix-agent
     image: zabbix/zabbix-agent2:alpine-5.0.1
     user: root
     networks:
