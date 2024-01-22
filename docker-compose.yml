@@ -10,7 +10,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
-      - /srv/volumes/zabbix-server-module:/var/lib/zabbix/modules
+      - ./volume/srv/volumes/zabbix-server-module:/var/lib/zabbix/modules
     networks:
       zabbix-rede:
         ipv4_address: 10.200.0.7
@@ -35,8 +35,8 @@ services:
       - 8014:8080
       - 9014:443
     volumes:
-      - /srv/volumes/zabbix-frontend/ssl.key:/etc/ssl/apache2/ssl.key
-      - /srv/volumes/zabbix-frontend/ssl.crt:/etc/ssl/apache2/ssl.crt
+      - ./volume/srv/volumes/zabbix-frontend/ssl.key:/etc/ssl/apache2/ssl.key
+      - ./volume/srv/volumes/zabbix-frontend/ssl.crt:/etc/ssl/apache2/ssl.crt
 
   zabbix-pgsql:
     container_name: zabbix-pgsql
@@ -45,7 +45,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
-      - /srv/volumes/zabbix-pgsql:/var/lib/postgresql/data
+      - ./volume/srv/volumes/zabbix-pgsql:/var/lib/postgresql/data
     networks:
       zabbix-rede:
        ipv4_address: 10.200.0.10
