@@ -1,0 +1,19 @@
+FROM zabbix/zabbix-server-pgsql:trunk-ubuntu
+
+
+# Ajuste as permissões do diretório /var/lib/apt/lists/partial
+# RUN mkdir -p /var/lib/apt/lists/partial \
+#     && chmod 755 /var/lib/apt/lists/partial
+
+# Instale o SNMP e as dependências necessárias
+RUN apt-get update && \
+    apt-get install -y snmp snmpd && \
+    apt-get clean
+
+
+
+# Copie a configuração do SNMP para o contêiner
+COPY snmpd.conf /etc/snmp/snmpd.conf
+
+# Inicie o serviço SNMP ao iniciar o contêiner
+CMD ["snmpd", "-f", "-Lo", "-c", "/etc/snmp/snmpd.conf"]
