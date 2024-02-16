@@ -1,7 +1,7 @@
 version: '2.4'
 services:
   zabbix-server:
-    container_name: zabbix-server
+    container_name: pcmonitor-server
     # image: zabbix/zabbix-server-pgsql:ol-trunk
     image: zabbix/zabbix-server-pgsql:ubuntu-trunk
     restart: always
@@ -15,9 +15,14 @@ services:
     networks:
       zabbix-rede:
         ipv4_address: 10.200.0.7
+    # ports:
+    #   - "161:161/udp"  # Aqui você está expondo a porta 161 UDP
+      # - "161:161"  # Aqui você está expondo a porta 161 UDP
+      # - "50000-60000:50000-60000"
+
 
   zabbix-frontend:
-    container_name: zabbix-frontend
+    container_name: pcmonitor-frontend
     image: zabbix/zabbix-web-apache-pgsql:ubuntu-trunk
     restart: always
     pull_policy: always
@@ -40,7 +45,7 @@ services:
       - ./volume/srv/volumes/zabbix-frontend/ssl.crt:/etc/ssl/apache2/ssl.crt
 
   zabbix-pgsql:
-    container_name: zabbix-pgsql
+    container_name: pcmonitor-pgsql
     image: postgres:15.1-bullseye
     restart: always
     environment:
