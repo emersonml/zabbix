@@ -19,8 +19,8 @@ services:
     #   nginx_network:
     #     ipv4_address: 10.0.2.4  
     ports:
-      - 8014:8080
-      - 9014:443
+      - 9014:8080
+      - 9015:443
     volumes:
       - /srv/volumes/zabbix-frontend/ssl.key/_data:/etc/ssl/apache2/ssl.key
       - /srv/volumes/zabbix-frontend/ssl.crt/_data:/etc/ssl/apache2/ssl.crt
