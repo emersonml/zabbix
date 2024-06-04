@@ -1,7 +1,7 @@
 # version: '2.4'
 services:
-  zabbix-frontend:
-    container_name: pcmonitor-frontend
+  frontend:
+    # container_name: pcmonitor-frontend
     hostname: frontend 
     image: zabbix/zabbix-web-apache-pgsql:ubuntu-trunk
     restart: always
@@ -28,8 +28,8 @@ services:
       # - ./volume/srv/volumes/zabbix-frontend/ssl.key:/etc/ssl/apache2/ssl.key
       # - ./volume/srv/volumes/zabbix-frontend/ssl.crt:/etc/ssl/apache2/ssl.crt
 
-  zabbix-server:
-    container_name: pcmonitor-server
+  server:
+    # container_name: pcmonitor-server
     hostname: server 
     # image: zabbix/zabbix-server-pgsql:ol-trunk
     image: zabbix/zabbix-server-pgsql:ubuntu-trunk
@@ -53,8 +53,9 @@ services:
 
 
 
-  zabbix-pgsql:
-    container_name: pcmonitor-pgsql
+  
+  pgsql:
+    # container_name: pcmonitor-pgsql
     hostname: pgsql 
     image: postgres:15.1-bullseye
     restart: always
