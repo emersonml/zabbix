@@ -23,12 +23,17 @@ services:
       - 9014:8080
       - 9015:443
     volumes:
-      - /srv/volumes/zabbix-frontend/ssl.key/_data:/etc/ssl/apache2/ssl.key
-      - /srv/volumes/zabbix-frontend/ssl.crt/_data:/etc/ssl/apache2/ssl.crt
+      - /srv/volumes/zabbix/frontend/ssl.key/_data:/etc/ssl/apache2/ssl.key
+      - /srv/volumes/zabbix/frontend/ssl.crt/_data:/etc/ssl/apache2/ssl.crt
       # - ./volume/srv/volumes/zabbix-frontend/ssl.key:/etc/ssl/apache2/ssl.key
       # - ./volume/srv/volumes/zabbix-frontend/ssl.crt:/etc/ssl/apache2/ssl.crt
 
+
+  
   server:
+    build:
+      context: .
+      dockerfile: Dockerfile
     # container_name: pcmonitor-server
     hostname: server 
     # image: zabbix/zabbix-server-pgsql:ol-trunk
@@ -42,7 +47,7 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
       # - ./volume/srv/volumes/zabbix-server-module:/var/lib/zabbix/modules
-      - /srv/volumes/zabbix-server-module/_data:/var/lib/zabbix/modules
+      - /srv/volumes/zabbix/server-module/_data:/var/lib/zabbix/modules
     # networks:
     #   - default
     #     ipv4_address: 10.200.0.7
@@ -54,7 +59,7 @@ services:
 
 
   
-  pgsql:
+  db:
     # container_name: pcmonitor-pgsql
     hostname: pgsql 
     image: postgres:15.1-bullseye
@@ -62,7 +67,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     volumes:
-      - /srv/volumes/zabbix-pgsql/_data:/var/lib/postgresql/data
+      - /srv/volumes/zabbix/db_pgsql/_data:/var/lib/postgresql/data
       # - ./volume/srv/volumes/zabbix-pgsql:/var/lib/postgresql/data
     # networks:
     #   - default
