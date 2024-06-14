@@ -20,7 +20,7 @@ services:
     #   nginx_network:
     #     ipv4_address: 10.0.2.4  
     ports:
-      - ${PORT}:8080
+      - "${PORT1}:8080"
       - 9015:443
     volumes:
       - /srv/volumes/zabbix/frontend/ssl.key/_data:/etc/ssl/apache2/ssl.key
