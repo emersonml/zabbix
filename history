@@ -1,1 +1,4 @@
 ### no serviço ZABBIX-SERVE add o Dockerfile
+
+### no deploy foi preciso entrar no zabbix-db-1 e alterar a senha de acordo com o .env
+
