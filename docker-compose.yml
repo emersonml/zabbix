@@ -10,18 +10,21 @@ services:
       - DB_SERVER_PORT=${POSTGRES_PORT}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - ZBX_SERVER_HOST=server
+      - ZBX_SERVER_HOST=zabbix-server
+      - ZBX_SERVER_PORT=10051
       - PHP_TZ=America/Sao_Paulo
     depends_on:
+      - server
       - db
     ports:
-      - "9014:8080"
+      - 9014:8080
       - 9015:443
-    volumes:
-      - /srv/volumes/zabbix/frontend/ssl.key/_data:/etc/ssl/apache2/ssl.key
-      - /srv/volumes/zabbix/frontend/ssl.crt/_data:/etc/ssl/apache2/ssl.crt
+    #volumes:
+     # - /srv/volumes/zabbix/frontend/ssl.key/_data:/etc/ssl/apache2/ssl.key
+     # - /srv/volumes/zabbix/frontend/ssl.crt/_data:/etc/ssl/apache2/ssl.crt
   
   server:
+    hostname: zabbix-server
     build:
       context: .
       dockerfile: Dockerfile
@@ -34,9 +37,16 @@ services:
       - DB_SERVER_DBNAME=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - ZBX_LISTENPORT=10051
+      - PHP_TZ=America/Sao_Paulo
+
+    depends_on:
+      - db
 
     volumes:
       - /srv/volumes/zabbix/server-module/_data:/var/lib/zabbix/modules
+      - /srv/volumes/zabbix/server/externalscripts/_data:/usr/lib/zabbix/externalscripts:ro
+      - /srv/volumes/zabbix/server/alertscripts/_data:/usr/lib/zabbix/alertscripts:ro
 
   db:
     image: postgres:15.1-bullseye
@@ -46,5 +56,6 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_INITDB_ARGS=--encoding=UTF-8 --lc-collate=C --lc-ctype=C
     volumes:
       - /srv/volumes/zabbix/db_pgsql/_data:/var/lib/postgresql/data
