@@ -1,2 +1,9 @@
-volume/
+# Arquivos de ambiente
 .env
+.env.*
+!.env.exemplo
+
+# Arquivos sensíveis
+secrets/
+credentials/
+config.local.*
