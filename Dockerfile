@@ -1,5 +1,6 @@
 # Use a imagem base do Zabbix Server
-FROM zabbix/zabbix-server-pgsql:trunk-ubuntu
+# FROM zabbix/zabbix-server-pgsql:trunk-ubuntu
+FROM emersonml/emersonml-zabbix-server:8
 
 # Garanta que estamos usando o usuário root
 USER root
