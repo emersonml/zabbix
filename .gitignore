@@ -2,6 +2,8 @@
 .env
 .env.*
 !.env.exemplo
+!.env.ex
+
 
 # Arquivos sensíveis
 secrets/
